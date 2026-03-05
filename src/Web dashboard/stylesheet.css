@@ -12,6 +12,12 @@ body {
     text-align: center;
 }
 
+.login-container title {
+    text-align: center;
+    font-family: "Arial Rounded MT Bold";
+    padding: 10px;
+}
+
 input {
     width: 90%;
     padding: 10px;
