@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Air Quality Sensor Login</title>
-    <link rel="stylesheet" href="login.js">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div class="login-container">
-    <h2 class="title">Air Quality Monitor</h2>
+    <h2>Air Quality Monitor</h2>
 
     <input type="text" id="username" placeholder="Username">
     <input type="text" id="password" placeholder="Password">
@@ -20,7 +20,27 @@
 
 </div>
 
-<script src="login.js"></script>
+<script src="script.js">
+    /**
+     * * This is where Javascript sends in the request for the login
+     * */
+    fetch("/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "username": document.getElementById("username").value,
+            "password": document.getElementById("password").value
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if(data.status === "success"){
+                alert("Login Successful");
+            }
+        })
+</script>
 
 </body>
 
