@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality System</title>
+    <link rel="stylesheet" href="background_info.css">
+</head>
+
+<body>
+<header>
+    <nav>
+        <h1>Project - Air Quality System</h1>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="#" class="active">Background</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+        <h2>Project Background Information</h2>
+            <p><strong>"BECAUSE EVERY BREATH MATTERS."</strong><br> Monitoring air quality through smart technology.</p>
+</section>
+
+<main>
+<section class="content">
+
+    <h3>Overview</h3>
+        <p>This project aims to monitor air quality using a custom-built sensor system that collects environmental data and displays it through a web dashboard. 
+           The system measures important air quality indicators such as particulate matter, temperature, humidity, and gas concentrations. 
+           These readings are processed and presented in a simple and accessible interface so users can easily understand the current environmental conditions. 
+           By providing real-time data and visual insights, the system helps raise awareness about air pollution and encourages informed decisions to promote healthier environments.</p>
+
+    <h3>Why Air Quality Matters?</h3>
+    <div class="card">
+        <img src="environment_change.jpg" alt="Environment change image" class="card-img">
+            <p>
+                According to the World Health Organisation, air pollution is one of the greatest environmental risks to health.<br>
+                By reducing air pollution levels, boroughs can reduce the burden of disease from stroke, heart disease, lung cancer, and respiratory diseases including asthma.<br>
+                Studies show air pollution can reduce life expectancy by 7 to 8 months on average. WHO promotes interventions and initiatives for healthy sectoral policies 
+                (including energy, transport, housing, urban development and electrification of health-care facilities), addressing key risks to health from air pollution indoors 
+                and outdoors, and contributing to achieving health co-benefits from climate change mitigation policies. 
+            </p>
+    </div>
+
+    <h3>So How Does The Sensor Work?</h3>
+        <p>Our system uses sensors such as Gas and BME680 sensors to measure particulate matter and gas concentrations. 
+           It uses a combination of particulate matter sensors, gas sensors, and the BME680 
+           environmental sensor to provide a detailed and accurate assessment of surrounding air conditions. The particulate 
+           matter sensor measures PM1.0, PM2.5, and PM10 levels to detect fine particles from sources such as dust, smoke, and 
+           vehicle emissions. Gas sensors complement this by identifying harmful pollutants like carbon monoxide, nitrogen dioxide,
+            and volatile organic compounds released from household products and outdoor pollution. The BME680 adds further insight 
+            by measuring temperature, humidity, pressure, and gas resistance, which helps estimate overall indoor air quality. By 
+            integrating data from all these sensors, the system delivers real‑time, reliable information that helps users understand 
+            pollution levels, identify potential health risks, and make informed decisions to improve their environment.</p>
+
+    <h3>Data Flow</h3>
+        <p>Sensor collects readings → sends them to server → stores them in database → displays them on the dashboard. <br>
+           Our system follows a clear end‑to‑end data flow that ensures air‑quality readings are captured, processed, and presented reliably. 
+           The sensors continuously collect environmental measurements, such as particulate matter levels, gas concentrations, temperature, and 
+           humidity. These raw readings are then transmitted to the server, where they are validated, formatted, and prepared for storage. Once 
+           received, the server writes the data into a structured database, allowing it to be organized chronologically and retrieved efficiently
+           for analysis. From there, the dashboard accesses the stored information and visualizes it through graphs, charts, and real‑time indicators, 
+           giving users an intuitive and accessible way to monitor air‑quality trends and understand changes in their environment.</p>
+    <h3>Team Roles</h3>
+        <ul>
+            <li> Computer Science: Responsible for the technical implementation and maintenance of the sensor system and web dashboard.</li>
+            <li> Data Science: Responsible for analyzing the collected data and providing insights into air quality trends and patterns.</li>
+        </ul>
+
+    <h3>Real-World Applications</h3>
+        <p>Air quality monitoring plays a vital role in protecting public health and creating healthier environments across schools, cities, workplaces, and research settings. 
+           By continuously tracking pollutants such as particulate matter, harmful gases, and volatile organic compounds, these systems help identify pollution sources and 
+           reveal patterns that might otherwise go unnoticed. The data collected empowers communities and decision‑makers to take meaningful action—whether that means improving 
+           ventilation in classrooms, enforcing cleaner transportation policies in urban areas, or guiding workplace safety measures. Over time, consistent monitoring not only 
+           raises awareness but also drives long‑term change by supporting cleaner technologies, informing public health initiatives, and encouraging individuals and organizations 
+           to adopt more sustainable practices.</p>
+
+    <h3>References</h3>
+    <ul>
+        <li><a href="https://www.c40knowledgehub.org/s/article/WHO-Air-Quality-Guidelines?language=en_US">World Health Organization – Air Quality</a></li>
+        <li><a href="https://www.ukri.org/what-we-do/browse-our-areas-of-investment-and-support/innovation-in-environmental-monitoring/">Environmental Monitoring Research</a></li>
+        <li><a href="https://www.c40knowledgehub.org/s/article/WHO-Air-Quality-Guidelines?language=en_US">Air Quality Guidelines</a></li>
+    </ul>
+
+</section>
+</main>
+
+<footer>
+<p>© 2026 Air Quality Sensor Project</p>
+</footer>
+
+</body>
+</html>
