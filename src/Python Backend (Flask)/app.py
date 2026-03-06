@@ -20,3 +20,13 @@ def login():
         return jsonify({"status": "fail"})
 
 app.run(host="0.0.0.0", port=5000)
+
+@app.route('airdata')
+def airdata():
+    data = {
+        "pm25": 12,
+        "temperature": 23,
+        "humidity": 40,
+        "fan_speed": "medium"
+    }
+    return jsonify(data)
