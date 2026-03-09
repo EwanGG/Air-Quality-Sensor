@@ -7,6 +7,7 @@ function login() {
 
     if(username === "raspberry" && password === "team17") {
         document.getElementById("message").innerText = "Login successful";
+        window.location.href = "background_info.html"
     }
     else {
         document.getElementById("message").innerText = "Login failed";
