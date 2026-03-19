@@ -2,7 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 import board
 import busio
-import adafruit_bme280
+import adafruit_bme688
 import time
 
 # Sending an email alert to the user
@@ -20,7 +20,7 @@ def send_email_alert(value):
 # Initializing the sensor
 
 i2c = busio.I2C(board.SCL, board.SDA)
-sensor = adafruit_bme680.Adafruit_BME680_I2C(i2c)
+sensor = adafruit_bme688.Adafruit_BME680_I2C(i2c)
 
 SAFE_THRESHOLD = 100000  # Adjust after calibration
 

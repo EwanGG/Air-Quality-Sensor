@@ -1,6 +1,6 @@
 import board
 import busio
-import adafruit_bme680
+import adafruit_bme688
 
 class BME688Sensor:
     def __init__(self):
@@ -9,7 +9,7 @@ class BME688Sensor:
             self.i2c = busio.I2C(board.SCL, board.SDA)
 
             # Initialize sensor
-            self.sensor = adafruit_bme680.Adafruit_BME680_I2C(self.i2c)
+            self.sensor = adafruit_bme688.Adafruit_BME688_I2C(self.i2c)
 
             # Optional settings
             self.sensor.sea_level_pressure = 1013.25
