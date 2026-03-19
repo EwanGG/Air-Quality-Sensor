@@ -1,10 +1,9 @@
-import board
-import busio
-import adafruit_bme688
-
 class BME688Sensor:
     def __init__(self):
         try:
+            import board
+            import busio
+            import adafruit_bme688
             # Initialize I2C bus
             self.i2c = busio.I2C(board.SCL, board.SDA)
 

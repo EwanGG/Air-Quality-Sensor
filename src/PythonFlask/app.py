@@ -1,11 +1,27 @@
 from flask import Flask, request, jsonify
 
+try:
+    import board
+    import busio
+    import adafruit_bme688
+
+    i2c = busio.I2C(board.SCL, board.SDA)
+    sensor = adafruit_bme688.Adafruit_BME680_I2C(i2c)
+
+    REAL_SENSOR = True
+
+except ImportError:
+    print("Running in simulation mode (no sensor detected)")
+    REAL_SENSOR = False
+
 app = Flask(__name__)
 
 '''This is the server for the application.
 This server allows us to be able to add the functions for each
 of the html pages and test them to make sure that they work
 using the flask web framework'''
+
+# Initialize sensor
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -21,12 +37,14 @@ def login():
 
 app.run(host="0.0.0.0", port=5000)
 
-@app.route('airdata')
+@app.route("/airdata")
 def airdata():
     data = {
-        "pm25": 12,
-        "temperature": 23,
-        "humidity": 40,
-        "fan_speed": "medium"
+        "pm25": sensor.gas,  # or replace with actual PM2.5 sensor
+        "temperature": sensor.temperature,
+        "humidity": sensor.humidity,
     }
     return jsonify(data)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)

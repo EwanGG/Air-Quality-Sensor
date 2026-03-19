@@ -4,6 +4,7 @@ body{
     padding:0;
     background: linear-gradient(135deg,#2ecc71,#3498db);
 }
+.dataBox{
     width:60%;
     margin:100px auto;
     background: white;
@@ -14,6 +15,11 @@ body{
 h1{
     text-align:center;
     color:#2c3e50;
+    background: white;
+    padding:10px;
+    border-radius:10px;
+    margin:100px auto;
+    width:60%;
 }
 .data-item{
     font-size:18px;

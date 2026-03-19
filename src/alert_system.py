@@ -1,9 +1,17 @@
 import smtplib
 from email.mime.text import MIMEText
-import board
-import busio
-import adafruit_bme688
 import time
+try:
+    import board
+    import busio
+    import adafruit_bme688
+
+    i2c = busio.I2C(board.SCL, board.SDA)
+    sensor = adafruit_bme688.Adafruit_BME680_I2C(i2c)
+
+    SAFE_THRESHOLD = 100000  # Adjust after calibration
+except ImportError:
+    print("Running in simulation mode (no sensor detected)")
 
 # Sending an email alert to the user
 
@@ -18,11 +26,6 @@ def send_email_alert(value):
         server.send_message(msg)
 
 # Initializing the sensor
-
-i2c = busio.I2C(board.SCL, board.SDA)
-sensor = adafruit_bme688.Adafruit_BME680_I2C(i2c)
-
-SAFE_THRESHOLD = 100000  # Adjust after calibration
 
 def check_air_quality():
     gas = sensor.gas
