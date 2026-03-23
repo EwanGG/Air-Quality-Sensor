@@ -1,7 +1,7 @@
 import time
-from src.GPS.map import generate_map
-from src.GPS.sensor import get_gps_data
-from src.alert_system import send_email_alert, check_air_quality, trigger_alert
+from GPS.map import generate_map
+from GPS.sensor import get_gps_data
+from alert_system import send_email_alert, check_air_quality, trigger_alert
 
 def start():
 

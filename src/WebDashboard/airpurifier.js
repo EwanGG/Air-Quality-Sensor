@@ -1,11 +1,11 @@
 function getData () {
 
-    fetch("/airdata")
+    fetch("/air_data")
         .then(response => response.json())
         .then(data => {
 
             document.getElementById("pm25").innerText = data.pm25;
-            document.getElementById("temp").innerText = data.temperature; // FIXED
+            document.getElementById("temperature").innerText = data.temperature; // FIXED
             document.getElementById("humidity").innerText = data.humidity;
 
         })

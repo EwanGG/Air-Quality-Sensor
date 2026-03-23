@@ -12,6 +12,40 @@ body{
     border-radius:10px;
     box-shadow:0 5px 20px rgba(0,0,0,0.2);
 }
+/* Navigation */
+header {
+    background: #246545;
+    color: white;
+    padding: 15px 0;
+}
+nav {
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+nav h1 {
+    font-size: 1.4rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+nav ul li a.active,
+nav ul li a:hover {
+    text-decoration: underline;
+}
 h1{
     text-align:center;
     color:#2c3e50;

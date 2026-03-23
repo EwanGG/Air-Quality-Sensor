@@ -35,15 +35,23 @@ def login():
     else:
         return jsonify({"status": "fail"})
 
-app.run(host="0.0.0.0", port=5000)
-
-@app.route("/airdata")
-def airdata():
-    data = {
-        "pm25": sensor.gas,  # or replace with actual PM2.5 sensor
-        "temperature": sensor.temperature,
-        "humidity": sensor.humidity,
-    }
+@app.route("/air_data")
+def air_data():
+    if REAL_SENSOR:
+        data = {
+            "gas": sensor.gas,
+            "temperature": sensor.temperature,
+            "humidity": sensor.humidity,
+            "pressure": sensor.pressure,
+        }
+    else:
+        # Fake data for testing
+        data = {
+            "pm25": 120,
+            "temperature": 22.5,
+            "humidity": 55,
+            "pressure": 100,
+        }
     return jsonify(data)
 
 if __name__ == "__main__":
