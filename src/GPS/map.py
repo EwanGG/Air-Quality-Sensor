@@ -3,9 +3,9 @@ import pandas as pd
 
 def generate_map():
 
-    data = pd.read_csv("../data/GPS/GPS.csv", name=["lat", "lon", "gas"])
+    data = pd.read_csv("GPS/save_data/GPS.csv", name=["gas", "temperature", "pressure","humidity"])
 
-    m = folium.Map(location=[data.lat.mean(), data.lon.mean()], zoom_start=5)
+    m = folium.Map(location=[data, data.mean()])
 
     for _, row in data.iterrows():
         color = "green" if row.gas > 100000 else "red"

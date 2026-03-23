@@ -1,12 +1,17 @@
 from flask import Flask, request, jsonify
+from GPS.map import generate_map
+from GPS.sensor import get_gps_data
+from alert_system import send_email_alert, check_air_quality, trigger_alert
+from sensors.bme688 import BME688Sensor
 
 try:
     import board
     import busio
-    import adafruit_bme688
+    import adafruit_bme680
 
     i2c = busio.I2C(board.SCL, board.SDA)
-    sensor = adafruit_bme688.Adafruit_BME680_I2C(i2c)
+
+    sensor = adafruit_bme680.Adafruit_BME680_I2C(i2c, address=0x76)
 
     REAL_SENSOR = True
 
@@ -55,4 +60,4 @@ def air_data():
     return jsonify(data)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="164.138.80.86", port=14473, debug=True)

@@ -1,19 +1,29 @@
 class BME688Sensor:
     def __init__(self):
         try:
+            import time
             import board
             import busio
-            import adafruit_bme688
+            import adafruit_bme680
             # Initialize I2C bus
             self.i2c = busio.I2C(board.SCL, board.SDA)
 
             # Initialize sensor
-            self.sensor = adafruit_bme688.Adafruit_BME688_I2C(self.i2c)
+            self.sensor = adafruit_bme680.Adafruit_BME680_I2C(self.i2c, address=0x76)
 
             # Optional settings
             self.sensor.sea_level_pressure = 1013.25
 
             print("BME688 sensor initialized successfully")
+
+            while True:
+                print("Temperature : ", self.sensor.temperature)
+                print("Pressure : ", self.sensor.pressure)
+                print("Humidity : ", self.sensor.humidity)
+                print("Gas : ", self.sensor.gas)
+                print("------------------------------")
+
+                time.sleep(2)
 
         except Exception as e:
             print("Error initializing BME688:", e)
