@@ -3,8 +3,13 @@ from GPS.map import generate_map
 from GPS.sensor import get_gps_data
 from alert_system import send_email_alert, check_air_quality, trigger_alert
 from sensors.bme688 import BME688Sensor
+from flask_cors import CORS
+
+
+sensor = BME688Sensor()
 
 try:
+    import time
     import board
     import busio
     import adafruit_bme680
@@ -20,7 +25,7 @@ except ImportError:
     REAL_SENSOR = False
 
 app = Flask(__name__)
-
+CORS(app) # CORS support in case the flask server is not accessible from the browser
 '''This is the server for the application.
 This server allows us to be able to add the functions for each
 of the html pages and test them to make sure that they work
@@ -42,22 +47,17 @@ def login():
 
 @app.route("/air_data")
 def air_data():
-    if REAL_SENSOR:
-        data = {
-            "gas": sensor.gas,
-            "temperature": sensor.temperature,
-            "humidity": sensor.humidity,
-            "pressure": sensor.pressure,
-        }
-    else:
-        # Fake data for testing
-        data = {
-            "pm25": 120,
+    data = sensor.read_data()
+
+    if data is None:
+        return jsonify({
             "temperature": 22.5,
             "humidity": 55,
-            "pressure": 100,
-        }
+            "pressure": 1000,
+            "gas": 120
+        })
+
     return jsonify(data)
 
 if __name__ == "__main__":
-    app.run(host="164.138.80.86", port=14473, debug=True)
+    app.run(host="0.0.0.0", port=14473, debug=True)
