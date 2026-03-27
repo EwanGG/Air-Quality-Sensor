@@ -65,5 +65,11 @@ def air_data():
 def air_data_history():
     return jsonify(data_store)
 
+@app.route("/air_data/latest")
+def latest():
+    if len(data_store) == 0:
+        return jsonify({})
+    return jsonify(data_store[-1])
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=14473, debug=True)
