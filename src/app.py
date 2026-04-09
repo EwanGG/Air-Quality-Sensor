@@ -25,7 +25,6 @@ except ImportError:
     REAL_SENSOR = False
 
 app = Flask(__name__)
-data_store = []
 CORS(app) # CORS support in case the flask server is not accessible from the browser
 '''This is the server for the application.
 This server allows us to be able to add the functions for each
@@ -51,25 +50,14 @@ def air_data():
     data = sensor.read_data()
 
     if data is None:
-        data = {
+        return jsonify({
             "temperature": 22.5,
             "humidity": 55,
             "pressure": 1000,
             "gas": 120
-        }
-    else:
-        data_store.append(data)
+        })
+
     return jsonify(data)
-
-@app.route("/air_data/history")
-def air_data_history():
-    return jsonify(data_store)
-
-@app.route("/air_data/latest")
-def latest():
-    if len(data_store) == 0:
-        return jsonify({})
-    return jsonify(data_store[-1])
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=14473, debug=True)
