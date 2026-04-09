@@ -1,4 +1,4 @@
-# Airy-Quality-Sensor
+# Air-Quality-Sensor
 
 ## Overview
 
