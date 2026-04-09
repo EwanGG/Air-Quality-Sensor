@@ -1,8 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from GPS.map import generate_map
 from GPS.sensor import get_gps_data
 from alert_system import send_email_alert, check_air_quality, trigger_alert
-from sensors.bme688 import BME688Sensor
+from sensors.BME688 import BME688Sensor
 from flask_cors import CORS
 
 
@@ -34,7 +34,7 @@ using the flask web framework'''
 # Initialize sensor
 
 @app.route('/login', methods=['POST'])
-def login():
+def index():
 
     data = request.json
     username = data['username']
@@ -47,6 +47,7 @@ def login():
 
 @app.route("/air_data")
 def air_data():
+
     data = sensor.read_data()
 
     if data is None:
@@ -56,8 +57,7 @@ def air_data():
             "pressure": 1000,
             "gas": 120
         })
-
-    return jsonify(data)
+    return jsonify({}) and render_template("airpurifier.html")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=14473, debug=True)

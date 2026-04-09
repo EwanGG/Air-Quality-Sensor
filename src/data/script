@@ -1,0 +1,9 @@
+CREATE TABLE sensor_data (
+    reading_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    temp REAL,
+    humidity REAL,
+    pressure REAL,
+    gas_level REAL,
+    gps_location REAL
+);

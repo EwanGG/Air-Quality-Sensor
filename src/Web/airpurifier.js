@@ -1,7 +1,7 @@
 async function getData () {
 
     try {
-        const response = await fetch('https://164.138.80.86:14473/air_data');
+        const response = await fetch('http://164.138.80.86:14473/air_data');
         const data = await response.json();
 
         document.getElementById("gas").innerText = data.gas + " Ω";
