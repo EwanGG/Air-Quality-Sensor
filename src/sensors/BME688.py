@@ -34,9 +34,6 @@ class BME688Sensor:
                 "pressure": round(self.sensor.pressure, 2),
                 "humidity": round(self.sensor.humidity, 2),
                 "gas": round(self.sensor.gas, 2),
-                "indoor air quality": round(self.sensor.indoor_air_quality, 2),
-                "volatile organic compounds": round(self.sensor.volatile_organic_compounds, 2),
-                "carbon dioxide": round(self.sensor.carbon_dioxide, 2)
             }
         except Exception as e:
             print("Error reading sensor:", e)

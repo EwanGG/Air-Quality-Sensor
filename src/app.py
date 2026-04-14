@@ -1,10 +1,10 @@
+import random
+import threading
 from flask import Flask, request, jsonify, render_template
-from GPS.map import generate_map
+from flask_socketio import SocketIO
 from GPS.sensor import get_gps_data
-from alert_system import send_email_alert, check_air_quality, trigger_alert
 from sensors.BME688 import BME688Sensor
 from flask_cors import CORS
-
 
 sensor = BME688Sensor()
 
@@ -30,7 +30,7 @@ CORS(app) # CORS support in case the flask server is not accessible from the bro
 This server allows us to be able to add the functions for each
 of the html pages and test them to make sure that they work
 using the flask web framework'''
-
+socketio = SocketIO(app, cors_allowed_origins="*")
 # Initialize sensor
 
 @app.route('/login', methods=['POST'])
@@ -48,16 +48,30 @@ def index():
 @app.route("/air_data")
 def air_data():
 
-    data = sensor.read_data()
+    while True:
 
-    if data is None:
-        return jsonify({
-            "temperature": 22.5,
-            "humidity": 55,
-            "pressure": 1000,
-            "gas": 120
-        })
-    return jsonify({}) and render_template("airpurifier.html")
+        sensor_data = sensor.get_gps_data()
+
+        data = {
+            "temperature": round(random.uniform(20, 30), 2),
+            "humidity": round(random.uniform(40, 70), 2),
+            "pressure": round(random.uniform(1000, 1025), 2),
+            "gas": round(random.uniform(200, 400), 2)
+        }
+        socketio.emit("air_data", data)
+        time.sleep(1)
+
+        if data is None:
+            return jsonify({
+                "temperature": 22.5,
+                "humidity": 55,
+                "pressure": 1000,
+                "gas": 120
+            })
+        return jsonify({}) and render_template("airpurifier.html")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=14473, debug=True)
+    thread = threading.Thread(target=get_gps_data()).start()
+    thread.daemon = True
+    thread.start()
+    socketio.run(app, host="0.0.0.0", port=14473, debug=True)
