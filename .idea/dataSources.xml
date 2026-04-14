@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="script" uuid="398c3ada-860b-4983-acf7-9477a114196a">
+    <data-source source="LOCAL" name="air_quality" uuid="966da439-5b04-4bc6-a00b-be826aff053b">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/src/data/script</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/src/data/air_quality.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
