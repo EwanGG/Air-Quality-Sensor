@@ -33,7 +33,7 @@ using the flask web framework'''
 socketio = SocketIO(app, cors_allowed_origins="*")
 # Initialize sensor
 
-@app.route('/login', methods=['POST'])
+@app.route('/index', methods=['POST'])
 def index():
 
     data = request.json
@@ -50,14 +50,13 @@ def air_data():
 
     while True:
 
-        sensor_data = sensor.get_gps_data()
-
         data = {
             "temperature": round(random.uniform(20, 30), 2),
             "humidity": round(random.uniform(40, 70), 2),
             "pressure": round(random.uniform(1000, 1025), 2),
             "gas": round(random.uniform(200, 400), 2)
         }
+
         socketio.emit("air_data", data)
         time.sleep(1)
 

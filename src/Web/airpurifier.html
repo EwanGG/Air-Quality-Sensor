@@ -3,6 +3,7 @@
 <head>
     <title>Air purifier Data</title>
     <link rel="stylesheet" href="airpurifier.css">
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
 </head>
 
 <body>
@@ -10,11 +11,9 @@
     <nav>
         <h1>Project - Air Quality System</h1>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="login.html">Login</a></li>
+            <li><a href="index.html">Login</a></li>
             <li><a href="airpurifier.html" class="active">Air Data</a></li>
-            <li><a href="background_info.html">Background</a></li>
+            <li><a href="background_info.html">Home/Background</a></li>
         </ul>
     </nav>
 </header>
@@ -22,15 +21,30 @@
 <h1>Air purifier Data</h1>
 
 <div class="dataBox">
-    <p>gas: <span id="gas">Loading... ppm</span></p>
-    <p>Temperature: <span id="temperature">Loading... °C</span></p>
-    <p>Humidity: <span id="humidity">Loading... %</span></p>
-    <p>Pressure: <span id="pressure">Loading... hPa</span></p>
+    <p>gas: <span id="gas"> Ω</span></p>
+    <p>Temperature: <span id="temperature"> °C</span></p>
+    <p>Humidity: <span id="humidity"> %</span></p>
+    <p>Pressure: <span id="pressure"> hPa</span></p>
 </div>
 
 <button onclick="getData()">Refresh Data</button>
+<script src="airpurifier.js">
 
-<script src="airpurifier.js"></script>
+    const socket = io();
+
+    socket.on('connect', (socket) => {
+        socket.emit('connected!');
+    })
+
+    socket.on('sensor update', (data) => {
+        console.log(data);
+        document.getElementById("temperature").innerHTML = data.temp;
+        document.getElementById("pressure").innerHTML = data.pressure;
+        document.getElementById("gas").innerHTML = data.gas;
+        document.getElementById("humidity").innerHTML = data.humidity;
+    })
+
+</script>
 
 <footer>
 <p>© 2026 Air Quality Sensor Project</p>
