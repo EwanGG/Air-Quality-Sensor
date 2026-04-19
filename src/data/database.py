@@ -7,6 +7,8 @@ cursor.execute("""
 CREATE TABLE sensor_data (
     reading_id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    description TEXT,
+    language TEXT,
     temp REAL,
     humidity REAL,
     pressure REAL,

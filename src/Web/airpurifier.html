@@ -25,6 +25,8 @@
     <p>Temperature: <span id="temperature"> °C</span></p>
     <p>Humidity: <span id="humidity"> %</span></p>
     <p>Pressure: <span id="pressure"> hPa</span></p>
+    <p>Latitude: <span id="lat">Loading...</span></p>
+    <p>Longitude: <span id="lon">Loading...</span></p>
 </div>
 
 <button onclick="getData()">Refresh Data</button>
@@ -40,8 +42,10 @@
         console.log(data);
         document.getElementById("temperature").innerHTML = data.temp;
         document.getElementById("pressure").innerHTML = data.pressure;
-        document.getElementById("gas").innerHTML = data.gas;
+        document.getElementById("gas").innerHTML = data.gas_level;
         document.getElementById("humidity").innerHTML = data.humidity;
+        document.getElementById("lat").innerText = data.latitude;
+        document.getElementById("lon").innerText = data.longitude;
     })
 
 </script>

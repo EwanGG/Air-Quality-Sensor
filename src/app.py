@@ -2,7 +2,8 @@ import random
 import threading
 from flask import Flask, request, jsonify, render_template
 from flask_socketio import SocketIO
-from GPS.sensor import get_gps_data
+from GPS.gps_sensor import get_gps_data
+from GPS.save_data import log_data
 from sensors.BME688 import BME688Sensor
 from flask_cors import CORS
 

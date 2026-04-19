@@ -19,4 +19,4 @@ def generate_map():
             popup=f"Gas: {row.gas}"
         ).add_to(m)
 
-    m.save("air_quality_map.html")
+    m.save("airpurifier.html")

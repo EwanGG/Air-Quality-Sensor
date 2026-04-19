@@ -4,10 +4,12 @@ async function getData () {
         const response = await fetch('http://164.138.80.86:14473/air_data');
         const data = await response.json();
 
-        document.getElementById("gas").innerText = data.gas + " Ω";
-        document.getElementById("temperature").innerText = data.temperature + " °C";
-        document.getElementById("humidity").innerText = data.humidity + " %";
-        document.getElementById("pressure").innerText = data.pressure + " hPa";
+        document.getElementById("gas").innerText = data.gas;
+        document.getElementById("temperature").innerText = data.temperature;
+        document.getElementById("humidity").innerText = data.humidity;
+        document.getElementById("pressure").innerText = data.pressure;
+        document.getElementById("lat").innerText = data.latitude;
+        document.getElementById("lon").innerText = data.longitude;
 
         if (data.gas > 100000)
             document.getElementById("gas").style.color = "red";
