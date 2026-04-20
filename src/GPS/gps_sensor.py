@@ -17,13 +17,13 @@ def get_gps_data():
 
         start_time = time.monotonic()
 
-        while time.time() - start_time < 5:  # wait max 5 seconds
+        while time.monotonic() - start_time < 5:  # wait max 5 seconds
            gps.update()
 
            if gps.has_fix:
                return gps.latitude, gps.longitude
 
-            return None, None
+        return None
 
     except Exception as e:
         print("GPS Error:", e)

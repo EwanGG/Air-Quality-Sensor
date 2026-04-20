@@ -1,11 +1,14 @@
-import parts
-
 def read_data(self):
     if self.process is None:
         return None
 
     try:
-        line = self.process.stdout.readline()
+        line = self.process.stdout.readline().strip()
+
+        if not line:
+            return None
+
+        parts = line.split(",")
 
         return {
             "iaq": float(parts[0].split(":")[1]),
@@ -14,3 +17,4 @@ def read_data(self):
         }
     except Exception as e:
         print("Error reading data/BSEC2:", e)
+        return None
