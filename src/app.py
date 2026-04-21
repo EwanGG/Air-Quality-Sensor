@@ -64,13 +64,9 @@ def index():
 def home():
     return render_template("airpurifier.html")
 
-@app.route('/GPS')
-def get_gps_data():
-    return jsonify(gps_data)
-
-@app.route('/air_data')
-def get_air_data():
-    return jsonify(air_data)
+@app.route('/all_data')
+def all_data():
+    return jsonify({**air_data, **gps_data})
 
 # Run app
 if __name__ == "__main__":

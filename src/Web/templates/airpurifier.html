@@ -2,8 +2,8 @@
 <html>
 <head>
     <title>Air purifier Data</title>
-    <link rel="stylesheet" href="airpurifier.css">
-    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <link rel="stylesheet" href="../static/airpurifier.css">
+    <script src="../static/airpurifier.js"></script>
 </head>
 
 <body>
@@ -30,27 +30,19 @@
 </div>
 
 <button onclick="getData()">Refresh Data</button>
-<script src="../airpurifier.js">
+<script src="../static/airpurifier.js"></script>
 
-    const socket = io("https://localhost:14473");
+<script>
 
-    socket.on('air_data', (data) => {
-        console.emit(data);
-    })
+    const socket = io("http://localhost:14473");
 
-    socket.on('sensor update', (data) => {
+    socket.emit('air_data', (data) => {
         console.log(data);
-        document.getElementById("temperature").innerHTML = data.temp;
-        document.getElementById("pressure").innerHTML = data.pressure;
-        document.getElementById("gas").innerHTML = data.gas_level;
-        document.getElementById("humidity").innerHTML = data.humidity;
     })
 
-    socket.on('GPS update', (data) => {
+    socket.emit('gps_data', (data) => {
         console.log(data);
-        document.getElementById("lat").innerText = data.latitude;
-        document.getElementById("lon").innerText = data.longitude;
-    })
+    });
 
 </script>
 
