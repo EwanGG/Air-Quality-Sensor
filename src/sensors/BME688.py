@@ -10,7 +10,7 @@ class BME688Sensor:
             self.i2c = busio.I2C(board.SCL, board.SDA)
             self.sensor = adafruit_bme680.Adafruit_BME680_I2C(self.i2c, address=0x76)
 
-            self.conn = sqlite3.connect('./air_quality.db')
+            self.conn = sqlite3.connect('./air_quality.db',check_same_thread=False)
             self.cursor = self.conn.cursor()
 
             self.cursor.execute("""
@@ -21,15 +21,13 @@ class BME688Sensor:
                 humidity REAL,
                 pressure REAL,
                 gas_level REAL,
+                )
             """)
             self.conn.commit()
 
             # Starting BSEC2 process
-            self.process = subprocess.Popen(
-                ["./bsec_bme688_example"],
-                stdout=subprocess.PIPE,
-                text=True
-            )
+            line = self.process.stdout.readline()
+            print(line)
 
             print("Sensor and BSEC2 successfully")
 

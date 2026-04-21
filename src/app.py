@@ -5,13 +5,13 @@ from flask import Flask, request, jsonify, render_template
 from flask_socketio import SocketIO
 from flask_cors import CORS
 
-from GPS.gps_sensor import get_gps_data
+from GPS.gps_sensor import GPSSensor
 from sensors.BME688 import BME688Sensor
 
 # Flask setup
 app = Flask(__name__)
 CORS(app) # CORS support in case the flask server is not accessible from the browser
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
 # Sensor init
 sensor = BME688Sensor()
@@ -21,11 +21,10 @@ air_data = {"temperature": None, "humidity": None, "pressure": None, "gas": None
 
 # Background loops
 def gps_loop():
-
     global gps_data
 
     while True:
-        result = get_gps_data()
+        result = GPSSensor.get_data()
 
         if result:
             lat, lon = result
@@ -40,11 +39,13 @@ def air_loop():
     global air_data
 
     while True:
-        data = sensor.BME688()
+        data = sensor.read_data()
 
         if data:
             air_data = data
             socketio.emit("air_data", air_data)
+
+            print(data)
 
         time.sleep(1)
 

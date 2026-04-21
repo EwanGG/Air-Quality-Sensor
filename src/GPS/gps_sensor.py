@@ -1,30 +1,35 @@
-def get_gps_data():
+import serial
+import adafruit_gps
 
-    try:
-        import time
-        import serial
-        import pynmea2
-        import adafruit_gps
+class GPSSensor:
+    def __init__(self, port='/dev/ttyACM0'):
+        try:
+            self.ser = serial.Serial(port, 9600, timeout=1)
+            self.gps = adafruit_gps.GPS(self.ser, debug=False)
 
-        port = '/dev/ttyUSB0'
+            # Configure GPS output
+            self.gps.send_command(
+                b'PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0'
+            )
+            self.gps.send_command(b'PMTK2C,1000')
 
-        ser = serial.Serial(port, baudrate=9600, timeout=30)
+            print("GPS connected")
 
-        gps = adafruit_gps.GPS(ser, debug=False)
+        except Exception as e:
+            print("GPS error : ",e)
+            self.gps = None
 
-        gps.send_command(b'PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0')
-        gps.send_command(b'PMTK220,1000')
+    def get_data(self):
+        if self.gps is None:
+            return None
 
-        start_time = time.monotonic()
+        try:
+            self.gps.update()
 
-        while time.monotonic() - start_time < 5:  # wait max 5 seconds
-           gps.update()
+            if self.gps.has_fixes:
+                return self.gps.latitude, self.gps.longitude
 
-           if gps.has_fix:
-               return gps.latitude, gps.longitude
+        except Exception as e:
+            print("GPS error : ",e)
 
         return None
-
-    except Exception as e:
-        print("GPS Error:", e)
-        return None, None

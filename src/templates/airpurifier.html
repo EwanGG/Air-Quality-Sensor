@@ -2,8 +2,10 @@
 <html>
 <head>
     <title>Air purifier Data</title>
-    <link rel="stylesheet" href="../static/airpurifier.css">
-    <script src="../static/airpurifier.js"></script>
+    <link rel="stylesheet" href="../static/background_info.css">
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='airpurifier.js') }}"></script>
 </head>
 
 <body>
@@ -11,9 +13,9 @@
     <nav>
         <h1>Project - Air Quality System</h1>
         <ul>
-            <li><a href="index.html">Login</a></li>
-            <li><a href="airpurifier.html" class="active">Air Data</a></li>
-            <li><a href="background_info.html">Home/Background</a></li>
+            <li><a href="{{ url_for('index') }}">Login</a></li>
+            <li><a href="{{ url_for('airpurifier') }}" class="active">Air Data</a></li>
+            <li><a href="{{ url_for('background') }}">Home/Background</a></li>
         </ul>
     </nav>
 </header>
@@ -30,17 +32,16 @@
 </div>
 
 <button onclick="getData()">Refresh Data</button>
-<script src="../static/airpurifier.js"></script>
 
 <script>
 
     const socket = io("http://localhost:14473");
 
-    socket.emit('air_data', (data) => {
+    socket.on('air_data', (data) => {
         console.log(data);
-    })
+    });
 
-    socket.emit('gps_data', (data) => {
+    socket.on('gps_data', (data) => {
         console.log(data);
     });
 

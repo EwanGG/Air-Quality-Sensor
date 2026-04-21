@@ -1,9 +1,9 @@
 import sqlite3
 
-conn = sqlite3.connect("air_quality.db")
+conn = sqlite3.connect("air_quality.db", check_same_thread=False)
 cursor = conn.cursor()
 
-def insert_data(data,gps_location):
+def insert_data(data):
     cursor.execute("""
         CREATE TABLE sensor_data (
             reading_id INTEGER PRIMARY KEY AUTOINCREMENT,
