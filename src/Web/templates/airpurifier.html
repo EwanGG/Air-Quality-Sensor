@@ -30,12 +30,12 @@
 </div>
 
 <button onclick="getData()">Refresh Data</button>
-<script src="airpurifier.js">
+<script src="../airpurifier.js">
 
-    const socket = io();
+    const socket = io("https://localhost:14473");
 
-    socket.on('connect', (socket) => {
-        socket.emit('connected!');
+    socket.on('air_data', (data) => {
+        console.emit(data);
     })
 
     socket.on('sensor update', (data) => {
@@ -44,6 +44,10 @@
         document.getElementById("pressure").innerHTML = data.pressure;
         document.getElementById("gas").innerHTML = data.gas_level;
         document.getElementById("humidity").innerHTML = data.humidity;
+    })
+
+    socket.on('GPS update', (data) => {
+        console.log(data);
         document.getElementById("lat").innerText = data.latitude;
         document.getElementById("lon").innerText = data.longitude;
     })

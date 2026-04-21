@@ -1,8 +1,6 @@
-import random
 import threading
 import time
 
-from django.db.models.expressions import result
 from flask import Flask, request, jsonify, render_template
 from flask_socketio import SocketIO
 from flask_cors import CORS
@@ -42,7 +40,7 @@ def air_loop():
     global air_data
 
     while True:
-        data = sensor.read_data()
+        data = sensor.BME688()
 
         if data:
             air_data = data
@@ -62,7 +60,11 @@ def index():
     else:
         return jsonify({"status": "fail"})
 
-@app.route('/gps_data')
+@app.route('/')
+def home():
+    return render_template("airpurifier.html")
+
+@app.route('/GPS')
 def get_gps_data():
     return jsonify(gps_data)
 
@@ -72,7 +74,10 @@ def get_air_data():
 
 # Run app
 if __name__ == "__main__":
-    thread = threading.Thread(target=get_gps_data()).start()
-    thread.daemon = True
-    thread.start()
+    gps_thread = threading.Thread(target=gps_loop, daemon=True)
+    air_thread = threading.Thread(target=air_loop, daemon=True)
+
+    gps_thread.start()
+    air_thread.start()
+
     socketio.run(app, host="0.0.0.0", port=14473, debug=True)
