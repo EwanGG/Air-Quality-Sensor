@@ -30,14 +30,13 @@
     <p>Longitude: <span id="lon">Loading...</span></p>
 </div>
 
-<button onclick="getData()">Refresh Data</button>
-
-<!-- LOAD JS AT THE END -->
-<script src="{{ url_for('static', filename='airpurifier.js') }}"></script>
+<button onclick="refreshBtn">Refresh Data</button>
 
 <footer>
 <p>© 2026 Air Quality Sensor Project</p>
 </footer>
+
+<script src="{{ url_for('static', filename='airpurifier.js') }}"></script>
 
 </body>
 </html>

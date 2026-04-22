@@ -1,6 +1,11 @@
-const socket = io();
+const socket = io("http://localhost:14473", {
+    transports: ["websocket"]
+});
 
-// ---------- REAL-TIME SOCKET DATA ----------
+socket.on('connect', () => {
+    console.log("Connected");
+});
+
 socket.on('air_data', (data) => {
     console.log("AIR:", data);
 
@@ -17,7 +22,6 @@ socket.on('gps_data', (data) => {
     document.getElementById("lon").innerText = data.longitude ?? "N/A";
 });
 
-// ---------- FALLBACK FETCH ----------
 async function getData() {
     try {
         const response = await fetch("/all_data");
@@ -26,19 +30,20 @@ async function getData() {
         console.log("FETCH:", data);
 
         document.getElementById("gas").innerText = data.gas ?? "N/A";
-        document.getElementById("temperature").innerText = data.temperature ?? "N/A"; // ✅ FIXED
+        document.getElementById("temperature").innerText = data.temperature ?? "N/A";
         document.getElementById("humidity").innerText = data.humidity ?? "N/A";
         document.getElementById("pressure").innerText = data.pressure ?? "N/A";
         document.getElementById("lat").innerText = data.latitude ?? "N/A";
         document.getElementById("lon").innerText = data.longitude ?? "N/A";
 
     } catch (error) {
-        console.error("Error getting data:", error); // ✅ FIXED
+        console.error("Error:", error);
     }
 }
 
-// Run every 5 seconds
-setInterval(getData, 5000);
+window.onload = () => {
+    getData();
 
-// Run on page load
-window.onload = getData;
+    document.getElementById("refreshBtn")
+        .addEventListener("click", getData);
+};
