@@ -8,23 +8,27 @@ from flask_cors import CORS
 from GPS.gps_sensor import GPSSensor
 from sensors.BME688 import BME688Sensor
 
-# Flask setup
+# ----------Flask setup----------
 app = Flask(__name__)
 CORS(app) # CORS support in case the flask server is not accessible from the browser
+
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
-# Sensor init
-sensor = BME688Sensor()
+# ----------Sensors----------
+air_sensor = BME688Sensor()
+gps_sensor = GPSSensor()
 
 gps_data = {"latitude": None, "longitude": None}
 air_data = {"temperature": None, "humidity": None, "pressure": None, "gas": None}
 
-# Background loops
+# ----------Background loops----------
+
+# ----------GPS loop----------
 def gps_loop():
     global gps_data
 
     while True:
-        result = GPSSensor.get_data()
+        result = gps_sensor.get_data()
 
         if result:
             lat, lon = result
@@ -34,18 +38,19 @@ def gps_loop():
 
         time.sleep(1)
 
+# ----------Air Quality loop----------
 def air_loop():
 
     global air_data
 
     while True:
-        data = sensor.read_data()
+        data = air_sensor.read_data()
 
         if data:
             air_data = data
             socketio.emit("air_data", air_data)
 
-            print(data)
+            print("AIR : ",data)
 
         time.sleep(1)
 
@@ -67,14 +72,15 @@ def home():
 
 @app.route('/all_data')
 def all_data():
-    return jsonify({**air_data, **gps_data})
+    return jsonify({
+        **air_data,
+        **gps_data
+    })
 
 # Run app
 if __name__ == "__main__":
-    gps_thread = threading.Thread(target=gps_loop, daemon=True)
-    air_thread = threading.Thread(target=air_loop, daemon=True)
 
-    gps_thread.start()
-    air_thread.start()
+    socketio.start_background_task(gps_loop)
+    socketio.start_background_task(air_loop)
 
-    socketio.run(app, host="0.0.0.0", port=14473, debug=True)
+    socketio.run(app, host="0.0.0.0", port=14473, debug=False, use_reloader=False)

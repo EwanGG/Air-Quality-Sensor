@@ -26,8 +26,11 @@ class GPSSensor:
         try:
             self.gps.update()
 
-            if self.gps.has_fixes:
-                return self.gps.latitude, self.gps.longitude
+            if self.gps.has_fix:
+                return {
+                    "latitude": self.gps.latitude,
+                    "longitude": self.gps.longitude
+                }
 
         except Exception as e:
             print("GPS error : ",e)
