@@ -1,35 +1,43 @@
-const socket = io("http://localhost:14473");
+const socket = io();
 
+// ---------- REAL-TIME SOCKET DATA ----------
 socket.on('air_data', (data) => {
-    document.getElementById("gas").innerText = data.gas;
-    document.getElementById("temperature").innerText = data.temperature;
-    document.getElementById("humidity").innerText = data.humidity;
-    document.getElementById("pressure").innerText = data.pressure;
+    console.log("AIR:", data);
+
+    document.getElementById("gas").innerText = data.gas ?? "N/A";
+    document.getElementById("temperature").innerText = data.temperature ?? "N/A";
+    document.getElementById("humidity").innerText = data.humidity ?? "N/A";
+    document.getElementById("pressure").innerText = data.pressure ?? "N/A";
 });
 
 socket.on('gps_data', (data) => {
-    document.getElementById("lat").innerText = data.latitude;
-    document.getElementById("lon").innerText = data.longitude;
+    console.log("GPS:", data);
+
+    document.getElementById("lat").innerText = data.latitude ?? "N/A";
+    document.getElementById("lon").innerText = data.longitude ?? "N/A";
 });
 
+// ---------- FALLBACK FETCH ----------
 async function getData() {
-
     try {
-        const response = await fetch("/all_data")
+        const response = await fetch("/all_data");
         const data = await response.json();
 
-        document.getElementById("gas").innerText = data.gas + ""
-        document.getElementById("temperature").innerText = data.temperatur + ""
-        document.getElementById("humidity").innerText = data.humidity + ""
-        document.getElementById("pressure").innerText = data.pressure + ""
-        document.getElementById("lat").innerText = data.latitude + ""
-        document.getElementById("lon").innerText = data.longitude + ""
+        console.log("FETCH:", data);
+
+        document.getElementById("gas").innerText = data.gas ?? "N/A";
+        document.getElementById("temperature").innerText = data.temperature ?? "N/A"; // ✅ FIXED
+        document.getElementById("humidity").innerText = data.humidity ?? "N/A";
+        document.getElementById("pressure").innerText = data.pressure ?? "N/A";
+        document.getElementById("lat").innerText = data.latitude ?? "N/A";
+        document.getElementById("lon").innerText = data.longitude ?? "N/A";
+
     } catch (error) {
-        console.alert("Error getting data : ",error);
+        console.error("Error getting data:", error); // ✅ FIXED
     }
 }
 
-// Load every 5 seconds
+// Run every 5 seconds
 setInterval(getData, 5000);
 
 // Run on page load

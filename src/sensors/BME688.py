@@ -25,14 +25,14 @@ class BME688Sensor:
                 temp REAL,
                 humidity REAL,
                 pressure REAL,
-                gas_level REAL,
+                gas_level REAL
                 )
             """)
             self.conn.commit()
 
             # Starting BSEC2 process
-            line = self.process.stdout.readline()
-            print(line)
+            # line = self.process.stdout.readline()
+            # print(line)
 
             print("Sensor and BSEC2 successfully")
 
@@ -50,7 +50,7 @@ class BME688Sensor:
                 "pressure": round(self.sensor.pressure, 2),
                 "humidity": round(self.sensor.humidity, 2),
                 "gas": round(
-                    getattr(self.sensor, "gas resistance", self.sensor.gas),2),
+                    getattr(self.sensor, "gas", self.sensor.gas),2),
             }
             return data
 

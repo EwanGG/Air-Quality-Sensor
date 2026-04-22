@@ -3,40 +3,33 @@ import sqlite3
 conn = sqlite3.connect("air_quality.db", check_same_thread=False)
 cursor = conn.cursor()
 
-
 cursor.execute("""
-    CREATE TABLE sensor_data (
+    CREATE TABLE IF NOT EXISTS sensor_data (
         reading_id INTEGER PRIMARY KEY AUTOINCREMENT,
         time_stamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-        username TEXT NOT NULL,
-        password  TEXT NOT NULL,
-        description TEXT,
-        language TEXT,
         temp REAL,
         humidity REAL,
         pressure REAL,
         gas_level REAL,
-        gps_location REAL)
-        )""")
+        latitude REAL,
+        longitude REAL
+    )
+""")
+
 conn.commit()
 
 def insert_data(data):
     cursor.execute("""
         INSERT INTO sensor_data 
-            (username, password, description, temp,humidity,pressure,language,gps_location)
-        VALUES (?,?,?,?,?,?,?,?,?)
-        """, (
-        data['reading_id'],
-        data['time_stamp'],
-        data['username'],
-        data['password'],
-        data['description'],
-        data['language'],
-        data['temp'],
-        data['humidity'],
-        data['pressure'],
-        data['gas_level'],
-        data['gps_location']
+        (temp, humidity, pressure, gas_level, latitude, longitude)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (
+        data.get('temperature'),
+        data.get('humidity'),
+        data.get('pressure'),
+        data.get('gas'),
+        data.get('latitude'),
+        data.get('longitude')
     ))
 
     conn.commit()

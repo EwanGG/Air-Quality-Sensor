@@ -2,10 +2,9 @@
 <html>
 <head>
     <title>Air purifier Data</title>
-    <link rel="stylesheet" href="../static/background_info.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='background_info.css') }}">
 
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-    <script src="{{ url_for('static', filename='airpurifier.js') }}"></script>
 </head>
 
 <body>
@@ -23,29 +22,18 @@
 <h1>Air purifier Data</h1>
 
 <div class="dataBox">
-    <p>gas: <span id="gas"> Ω</span></p>
-    <p>Temperature: <span id="temperature"> °C</span></p>
-    <p>Humidity: <span id="humidity"> %</span></p>
-    <p>Pressure: <span id="pressure"> hPa</span></p>
+    <p>Gas: <span id="gas">Loading...</span></p>
+    <p>Temperature: <span id="temperature">Loading...</span></p>
+    <p>Humidity: <span id="humidity">Loading...</span></p>
+    <p>Pressure: <span id="pressure">Loading...</span></p>
     <p>Latitude: <span id="lat">Loading...</span></p>
     <p>Longitude: <span id="lon">Loading...</span></p>
 </div>
 
 <button onclick="getData()">Refresh Data</button>
 
-<script>
-
-    const socket = io("http://localhost:14473");
-
-    socket.on('air_data', (data) => {
-        console.log(data);
-    });
-
-    socket.on('gps_data', (data) => {
-        console.log(data);
-    });
-
-</script>
+<!-- LOAD JS AT THE END -->
+<script src="{{ url_for('static', filename='airpurifier.js') }}"></script>
 
 <footer>
 <p>© 2026 Air Quality Sensor Project</p>
@@ -53,4 +41,3 @@
 
 </body>
 </html>
-

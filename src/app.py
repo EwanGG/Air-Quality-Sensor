@@ -1,4 +1,3 @@
-import threading
 import time
 
 from flask import Flask, request, jsonify, render_template
@@ -46,14 +45,15 @@ def air_loop():
     while True:
         data = air_sensor.read_data()
 
+        print(air_data)
+
         if data:
             air_data = data
             socketio.emit("air_data", air_data)
 
-            print("AIR : ",data)
-
         time.sleep(1)
 
+# ----------Routes----------
 @app.route('/index', methods=['POST'])
 def index():
 
@@ -66,8 +66,8 @@ def index():
     else:
         return jsonify({"status": "fail"})
 
-@app.route('/')
-def home():
+@app.route('/airpurifier')
+def airpurifier():
     return render_template("airpurifier.html")
 
 @app.route('/all_data')
@@ -77,7 +77,7 @@ def all_data():
         **gps_data
     })
 
-# Run app
+# ----------Run app----------
 if __name__ == "__main__":
 
     socketio.start_background_task(gps_loop)
