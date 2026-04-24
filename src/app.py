@@ -18,7 +18,8 @@ air_sensor = BME688Sensor()
 gps_sensor = GPSSensor()
 
 gps_data = {"latitude": None, "longitude": None}
-air_data = {"temperature": None, "humidity": None, "pressure": None, "gas": None}
+air_data = {"temperature": None,"humidity": None,"pressure": None,"gas": None,
+            "iaq": None,"co2": None,"voc": None}
 
 # ----------Background loops----------
 

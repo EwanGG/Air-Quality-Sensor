@@ -25,16 +25,15 @@ class BME688Sensor:
                 temp REAL,
                 humidity REAL,
                 pressure REAL,
-                gas_level REAL
+                gas_level REAL,
+                iaq REAL,
+                co2 REAL,
+                voc REAL
                 )
             """)
             self.conn.commit()
 
-            # Starting BSEC2 process
-            # line = self.process.stdout.readline()
-            # print(line)
-
-            print("Sensor and BSEC2 successfully")
+            print("Sensor successful")
 
         except Exception as e:
             print("Error initializing BME688 and BSEC2:", e)
@@ -45,12 +44,21 @@ class BME688Sensor:
             return None
 
         try:
+            line = self.process.stdout.readline().strip()
+
+            if not line:
+                return None
+
+            parts = line.split(",")
+
             data = {
                 "temperature": round(self.sensor.temperature, 2),
                 "pressure": round(self.sensor.pressure, 2),
                 "humidity": round(self.sensor.humidity, 2),
-                "gas": round(
-                    getattr(self.sensor, "gas", self.sensor.gas),2),
+                "gas": round(getattr(self.sensor, "gas", self.sensor.gas),2),
+                "iaq": float(parts[0].split(":")[1]),
+                "co2": float(parts[1].split(":")[1]),
+                "voc": float(parts[2].split(":")[1]),
             }
             return data
 
