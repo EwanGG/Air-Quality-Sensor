@@ -62,18 +62,6 @@ h1{
     margin:15px 0;
 }
 
-.good {
-    color: green;
-}
-
-.moderate {
-    color: orange;
-}
-
-.bad {
-    color: red;
-}
-
 button{
     margin-top:20px;
     padding:10px 20px;
