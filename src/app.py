@@ -17,9 +17,15 @@ socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 air_sensor = BME688Sensor()
 gps_sensor = GPSSensor()
 
-gps_data = {"latitude": None, "longitude": None}
-air_data = {"temperature": None,"humidity": None,"pressure": None,"gas": None,
-            "iaq": None,"co2": None,"voc": None}
+gps_data = {"latitude": None,
+            "longitude": None}
+air_data = {"temperature": None,
+            "humidity": None,
+            "pressure": None,
+            "gas": None,
+            "iaq": None,
+            "co2": None,
+            "voc": None}
 
 # ----------Background loops----------
 
@@ -31,12 +37,10 @@ def gps_loop():
         result = gps_sensor.get_data()
 
         if result:
-            lat, lon = result
-            gps_data = {"latitude": lat, "longitude": lon}
-
+            gps_data = result
             socketio.emit("gps_data", gps_data)
 
-        time.sleep(1)
+        time.sleep(0.5)
 
 # ----------Air Quality loop----------
 def air_loop():
