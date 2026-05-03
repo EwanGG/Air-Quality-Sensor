@@ -34,6 +34,7 @@ int main(void)
     virtual_sensors[3].sensor_id = BSEC_OUTPUT_RAW_TEMPERATURE;
     virtual_sensors[4].sensor_id = BSEC_OUTPUT_RAW_PRESSURE;
     virtual_sensors[5].sensor_id = BSEC_OUTPUT_RAW_HUMIDITY;
+    virtual_sensors[6].sensor_id = BSEC_OUTPUT_RAW_GAS;
 
     bsec_update_subscription(virtual_sensors, 6, virtual_sensors, &n_outputs);
 
@@ -43,6 +44,7 @@ int main(void)
 
         float temp = 0, hum = 0, press = 0;
         float iaq = 0, co2 = 0, voc = 0;
+        float gas = 0;
 
         for (int i = 0; i < n_outputs; i++)
         {
@@ -71,12 +73,16 @@ int main(void)
                 case BSEC_OUTPUT_RAW_PRESSURE:
                     press = outputs[i].signal;
                     break;
+
+                case BSEC_OUTPUT_RAW_GAS:
+                     gas = outputs[i].signal;
+                     break;
             }
         }
 
         // OUTPUT FOR PYTHON
-        printf("temp:%.2f,hum:%.2f,press:%.2f,iaq:%.2f,co2:%.2f,voc:%.2f\n",
-               temp, hum, press, iaq, co2, voc);
+        printf("temp:%.2f,hum:%.2f,press:%.2f,gas:%.2f,iaq:%.2f,co2:%.2f,voc:%.2f\n",
+               temp, hum, press, gas ,iaq, co2, voc);
 
         fflush(stdout);
 

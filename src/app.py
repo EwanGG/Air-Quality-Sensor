@@ -5,7 +5,9 @@ from flask_socketio import SocketIO
 from flask_cors import CORS
 
 from GPS.gps_sensor import GPSSensor
+from GPS.save_data import log_data
 from sensors.BME688 import BME688Sensor
+from data.database import insert_data
 
 # ----------Flask setup----------
 app = Flask(__name__)
@@ -27,36 +29,33 @@ air_data = {"temperature": None,
             "co2": None,
             "voc": None}
 
-# ----------Background loops----------
-
-# ----------GPS loop----------
-def gps_loop():
-    global gps_data
-
-    while True:
-        result = gps_sensor.get_data()
-
-        if result:
-            gps_data = result
-            socketio.emit("gps_data", gps_data)
-
-        time.sleep(0.5)
-
 # ----------Air Quality loop----------
 def air_loop():
 
-    global air_data
+    global air_data, gps_data
 
     while True:
         data = air_sensor.read_data()
 
-        print(air_data)
+        if data is not None:
 
-        if data:
-            air_data = data
-            socketio.emit("air_data", air_data)
+            combined = {
+                **air_data,
+                **gps_data
+            }
 
-        time.sleep(1)
+            print(data)
+
+            # Save to CSV
+            log_data(combined)
+
+            # Save to db
+            insert_data(combined)
+
+            socketio.emit("air_data", combined)
+
+            time.sleep(1)
+
 
 # ----------Routes----------
 @app.route('/index', methods=['POST'])
@@ -85,7 +84,6 @@ def all_data():
 # ----------Run app----------
 if __name__ == "__main__":
 
-    socketio.start_background_task(gps_loop)
     socketio.start_background_task(air_loop)
 
     socketio.run(app, host="0.0.0.0", port=14473, debug=False, use_reloader=False)

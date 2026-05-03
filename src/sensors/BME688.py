@@ -2,7 +2,7 @@ import subprocess
 import threading
 
 class BME688Sensor:
-    def __init__(self, binary_path="./bsec2_app"):
+    def __init__(self, binary_path="./sensors/bsec2_app"):
         self.process = None
         self.lock = threading.Lock()
 
@@ -10,6 +10,7 @@ class BME688Sensor:
             "temperature": None,
             "humidity": None,
             "pressure": None,
+            "gas": None,
             "iaq": None,
             "co2": None,
             "voc": None
@@ -35,6 +36,7 @@ class BME688Sensor:
 
         try:
             line = self.process.stdout.readline()
+            print("RAW:", line)
 
             if not line:
                 return None
@@ -65,6 +67,7 @@ class BME688Sensor:
                 "temperature": round(d["temp"], 2),
                 "humidity": round(d["hum"], 2),
                 "pressure": round(d["press"], 2),
+                "gas": round(d["gas"], 2),
                 "iaq": round(d["iaq"], 2),
                 "co2": round(d["co2"], 2),
                 "voc": round(d["voc"], 2),
