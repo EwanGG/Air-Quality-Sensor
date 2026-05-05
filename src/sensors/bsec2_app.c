@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <linux/i2c-dev.h>
 #include "bsec_interface.h"
 #include "bme68x.h"
 #include "bsec_datatypes.h"
@@ -26,7 +27,7 @@ int main(void)
     }
 
     // Configure virtual sensors
-    bsec_sensor_configuration_t virtual_sensors[6];
+    bsec_sensor_configuration_t virtual_sensors[7];
 
     virtual_sensors[0].sensor_id = BSEC_OUTPUT_IAQ;
     virtual_sensors[1].sensor_id = BSEC_OUTPUT_CO2_EQUIVALENT;
@@ -40,7 +41,7 @@ int main(void)
 
     while (1)
     {
-        bsec_do_steps(NULL, 0, outputs, &n_outputs);
+        bsec_input_t inputs[];
 
         float temp = 0, hum = 0, press = 0;
         float iaq = 0, co2 = 0, voc = 0;

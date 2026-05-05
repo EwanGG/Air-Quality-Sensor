@@ -35,26 +35,31 @@ def air_loop():
     global air_data, gps_data
 
     while True:
-        data = air_sensor.read_data()
+        air = air_sensor.read_data()
+        gps = gps_sensor.get_data()
 
-        if data is not None:
+        if air is not None:
+            air_data = air
 
-            combined = {
-                **air_data,
-                **gps_data
-            }
+        if gps is not None:
+            gps_data = gps
 
-            print(data)
+        combined = {
+            **air_data,
+            **gps_data
+        }
 
-            # Save to CSV
-            log_data(combined)
+        print("COMBINED", combined)
 
-            # Save to db
-            insert_data(combined)
+        # Save to CSV
+        log_data(combined)
 
-            socketio.emit("air_data", combined)
+        # Save to db
+        insert_data(combined)
 
-            time.sleep(1)
+        socketio.emit("air_data", combined)
+
+        time.sleep(1)
 
 
 # ----------Routes----------
