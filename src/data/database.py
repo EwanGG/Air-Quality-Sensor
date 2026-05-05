@@ -6,6 +6,7 @@ lock = threading.Lock()
 conn = sqlite3.connect("air_quality.db", check_same_thread=False)
 cursor = conn.cursor()
 
+# Sensor table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS sensor_data
     (
@@ -17,9 +18,12 @@ cursor.execute("""
         gas REAL,
         latitude REAL,
         longitude REAL
-    )
-    
-    CREATE TABLE users (
+    );
+""")
+
+# User table
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users (
         user_id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE,
         password TEXT
@@ -34,7 +38,7 @@ def insert_data(data):
             cursor.execute("""
                 INSERT INTO sensor_data
                 (temperature, humidity, pressure, gas, latitude, longitude)
-                VALUES (?, ?, ?, ?, ?.?)
+                VALUES (?, ?, ?, ?, ?, ?)
             """, (
                 data.get('temperature'),
                 data.get('humidity'),
