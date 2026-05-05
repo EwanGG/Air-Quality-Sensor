@@ -1,6 +1,5 @@
 import time
-
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, session, redirect
 from flask_socketio import SocketIO
 from flask_cors import CORS
 
@@ -11,8 +10,9 @@ from data.database import insert_data
 
 # ----------Flask setup----------
 app = Flask(__name__)
-CORS(app) # CORS support in case the flask server is not accessible from the browser
+app.secret_key = "Raspberry1"
 
+CORS(app) # CORS support in case the flask server is not accessible from the browser
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
 # ----------Sensors----------
@@ -24,10 +24,7 @@ gps_data = {"latitude": None,
 air_data = {"temperature": None,
             "humidity": None,
             "pressure": None,
-            "gas": None,
-            "iaq": None,
-            "co2": None,
-            "voc": None}
+            "gas": None}
 
 # ----------Air Quality loop----------
 def air_loop():
@@ -62,9 +59,14 @@ def air_loop():
         time.sleep(5)
 
 
-# ----------Routes----------
-@app.route('/index', methods=['POST'])
-def index():
+# ---------- Route ----------
+
+@app.route('/')
+def login_page():
+    return render_template("login.html")
+
+@app.route('/login', methods=['POST'])
+def login():
     data = request.json
     print("LOGIN ATTEMPT: ", data)
 
@@ -72,7 +74,7 @@ def index():
     password = data.get("password")
 
     if username == "raspberry" and password == "team17":
-        print("LOGIN SUCCESS")
+        session["logged_in"] = True
         return jsonify({"status": "success"})
     else:
         print("LOGIN FAILED")
@@ -80,14 +82,13 @@ def index():
 
 @app.route('/airpurifier')
 def airpurifier():
+    if not session.get("logged_in"):
+        return redirect("/")
     return render_template("airpurifier.html")
 
 @app.route('/all_data')
 def all_data():
-    return jsonify({
-        **air_data,
-        **gps_data
-    })
+    return jsonify({**air_data, **gps_data})
 
 @app.route('/history')
 def history():

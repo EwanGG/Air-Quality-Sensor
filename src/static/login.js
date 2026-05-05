@@ -5,7 +5,7 @@ async function login() {
     let password = document.getElementById("password").value;
 
     try {
-        const response = await fetch("/index", {
+        const response = await fetch("/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

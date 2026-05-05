@@ -10,15 +10,14 @@ cursor.execute("""
     CREATE TABLE IF NOT EXISTS sensor_data (
         reading_id INTEGER PRIMARY KEY AUTOINCREMENT,
         time_stamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+        username TEXT NOT NULL,
+        password TEXT NOT NULL,
         temperature REAL,
         humidity REAL,
         pressure REAL,
         gas REAL,
         latitude REAL,
-        longitude REAL,
-        iaq REAL,
-        co2 REAL,
-        voc REAL
+        longitude REAL
     )
 """)
 
@@ -28,7 +27,7 @@ def insert_data(data):
     with lock:
         cursor.execute("""
                        INSERT INTO sensor_data
-                       (temperature, humidity, pressure, gas, latitude, longitude, iaq, co2, voc)
+                       (temperature, humidity, pressure, gas, latitude, longitude)
                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                        """, (
                            data.get('temperature'),
@@ -36,10 +35,7 @@ def insert_data(data):
                            data.get('pressure'),
                            data.get('gas'),
                            data.get('latitude'),
-                           data.get('longitude'),
-                           data.get('iaq'),
-                           data.get('co2'),
-                           data.get('voc')
+                           data.get('longitude')
                        ))
 
         conn.commit()
