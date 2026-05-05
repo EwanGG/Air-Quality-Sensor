@@ -5,18 +5,17 @@ socket.on('connect', () => {
 });
 
 socket.on('air_data', (data) => {
-    console.log("AIR:", data);
+    console.log("Incoming data:", data);
 
+    // Air data
     document.getElementById("gas").innerText = data.gas ?? "N/A";
     document.getElementById("temperature").innerText = data.temperature ?? "N/A";
     document.getElementById("humidity").innerText = data.humidity ?? "N/A";
     document.getElementById("pressure").innerText = data.pressure ?? "N/A";
-    document.getElementById("iaq").innerText = data.iaq ?? "N/A";
-    document.getElementById("co2").innerText = data.co2 ?? "N/A";
-    document.getElementById("voc").innerText = data.voc ?? "N/A";
 
-    document.getElementById("lat").innerText = data.latitude ?? "N/A";
-    document.getElementById("lon").innerText = data.longitude ?? "N/A";
+    // GPS data
+    document.getElementById("latitude").innerText = data.latitude ?? "N/A";
+    document.getElementById("longitude").innerText = data.longitude ?? "N/A";
 });
 
 async function getData() {
@@ -30,12 +29,9 @@ async function getData() {
         document.getElementById("temperature").innerText = data.temperature ?? "N/A";
         document.getElementById("humidity").innerText = data.humidity ?? "N/A";
         document.getElementById("pressure").innerText = data.pressure ?? "N/A";
-        document.getElementById("iaq").innerText = data.iaq ?? "N/A";
-        document.getElementById("co2").innerText = data.co2 ?? "N/A";
-        document.getElementById("voc").innerText = data.voc ?? "N/A";
 
-        document.getElementById("lat").innerText = data.latitude ?? "N/A";
-        document.getElementById("lon").innerText = data.longitude ?? "N/A";
+        document.getElementById("latitude").innerText = data.latitude ?? "N/A";
+        document.getElementById("longitude").innerText = data.longitude ?? "N/A";
 
     } catch (error) {
         console.error("Error:", error);
