@@ -7,11 +7,10 @@ conn = sqlite3.connect("air_quality.db", check_same_thread=False)
 cursor = conn.cursor()
 
 cursor.execute("""
-    CREATE TABLE IF NOT EXISTS sensor_data (
+    CREATE TABLE IF NOT EXISTS sensor_data
+    (
         reading_id INTEGER PRIMARY KEY AUTOINCREMENT,
         time_stamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-        username TEXT NOT NULL,
-        password TEXT NOT NULL,
         temperature REAL,
         humidity REAL,
         pressure REAL,
@@ -19,23 +18,31 @@ cursor.execute("""
         latitude REAL,
         longitude REAL
     )
+    
+    CREATE TABLE users (
+        user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE,
+        password TEXT
+    );
 """)
 
 conn.commit()
 
 def insert_data(data):
     with lock:
-        cursor.execute("""
-                       INSERT INTO sensor_data
-                       (temperature, humidity, pressure, gas, latitude, longitude)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                       """, (
-                           data.get('temperature'),
-                           data.get('humidity'),
-                           data.get('pressure'),
-                           data.get('gas'),
-                           data.get('latitude'),
-                           data.get('longitude')
-                       ))
-
-        conn.commit()
+        try:
+            cursor.execute("""
+                INSERT INTO sensor_data
+                (temperature, humidity, pressure, gas, latitude, longitude)
+                VALUES (?, ?, ?, ?, ?.?)
+            """, (
+                data.get('temperature'),
+                data.get('humidity'),
+                data.get('pressure'),
+                data.get('gas'),
+                data.get('latitude'),
+                data.get('longitude')
+            ))
+            conn.commit()
+        except Exception as e:
+            print("DB Error: ", e)

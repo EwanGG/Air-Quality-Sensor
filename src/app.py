@@ -86,6 +86,12 @@ def airpurifier():
         return redirect("/")
     return render_template("airpurifier.html")
 
+@app.route('/background')
+def background():
+    if not session.get("logged_in"):
+        return redirect("/")
+    return render_template("background_info.html")
+
 @app.route('/all_data')
 def all_data():
     return jsonify({**air_data, **gps_data})
