@@ -16,10 +16,6 @@ socket.on('air_data', (data) => {
     document.getElementById("iaq").innerText = data.iaq ?? "N/A";
     document.getElementById("co2").innerText = data.co2 ?? "N/A";
     document.getElementById("voc").innerText = data.voc ?? "N/A";
-});
-
-socket.on('gps_data', (data) => {
-    console.log("GPS:", data);
 
     document.getElementById("lat").innerText = data.latitude ?? "N/A";
     document.getElementById("lon").innerText = data.longitude ?? "N/A";

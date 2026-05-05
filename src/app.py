@@ -59,16 +59,16 @@ def air_loop():
 
         socketio.emit("air_data", combined)
 
-        time.sleep(1)
+        time.sleep(5)
 
 
 # ----------Routes----------
 @app.route('/index', methods=['POST'])
 def index():
-
     data = request.json
-    username = data['username']
-    password = data['password']
+
+    username = data.get("username")
+    password = data.get("password")
 
     if username == "raspberry" and password == "team17":
         return jsonify({"status": "success"})
@@ -85,6 +85,19 @@ def all_data():
         **air_data,
         **gps_data
     })
+
+@app.route('/history')
+def history():
+    import sqlite3
+    conn = sqlite3.connect('./air_quality.db')
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM air_data ORDER BY timestamp DESC LIMIT 50")
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    return jsonify(rows)
 
 # ----------Run app----------
 if __name__ == "__main__":
