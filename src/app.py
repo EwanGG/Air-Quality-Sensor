@@ -66,13 +66,16 @@ def air_loop():
 @app.route('/index', methods=['POST'])
 def index():
     data = request.json
+    print("LOGIN ATTEMPT: ", data)
 
     username = data.get("username")
     password = data.get("password")
 
     if username == "raspberry" and password == "team17":
+        print("LOGIN SUCCESS")
         return jsonify({"status": "success"})
     else:
+        print("LOGIN FAILED")
         return jsonify({"status": "fail"})
 
 @app.route('/airpurifier')

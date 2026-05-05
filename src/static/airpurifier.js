@@ -1,6 +1,4 @@
-const socket = io("http://localhost:14473", {
-    transports: ["websocket"]
-});
+const socket = io();
 
 socket.on('connect', () => {
     console.log("Connected");

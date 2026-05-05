@@ -17,7 +17,7 @@ async function login() {
 
         if (data.status === "success") {
             document.getElementById("message").innerText = "Login successful";
-            window.location.href = "background_info.html";
+            window.location.href = "/airpurifier";
         } else {
             document.getElementById("message").innerText = "Login failed";
         }
