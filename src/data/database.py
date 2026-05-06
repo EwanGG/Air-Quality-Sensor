@@ -21,7 +21,8 @@ def init_db():
                        gas REAL,
                        pressure REAL,
                        latitude REAL,
-                       longitude REAL
+                       longitude REAL,
+                       reading_time DATETIME DEFAULT CURRENT_TIMESTAMP
                    )
                    ''')
     conn.commit()
