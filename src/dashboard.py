@@ -9,7 +9,7 @@ st_autorefresh(interval=5000, key="datarefresh") # Auto-refresh every 5s
 def load_data():
     conn = sqlite3.connect('air_quality.db')
     # Get the last 50 readings
-    query = "SELECT * FROM sensor_readings ORDER BY reading_time DESC LIMIT 50"
+    query = "SELECT * FROM sensor_data ORDER BY reading_time DESC LIMIT 50"
     df = pd.read_sql_query(query, conn)
     conn.close()
     return df
