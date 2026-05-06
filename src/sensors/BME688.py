@@ -31,7 +31,8 @@ class BME688Sensor:
                 "temperature": round(self.sensor.temperature, 2),
                 "pressure": round(self.sensor.pressure, 2),
                 "humidity": round(self.sensor.humidity, 2),
-                "gas": round(self.sensor.gas, 2)
+                "gas": round(self.sensor.gas, 2),
+                "timestamp": self.sensor.timestamp
             }
             return data
 
