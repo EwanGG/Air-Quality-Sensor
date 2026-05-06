@@ -12,7 +12,7 @@ st.title("🛰️ Real-Time Sensor Dashboard")
 def load_data():
     conn = sqlite3.connect('sensor_data.db')
     # We pull the last 20 entries to show trends
-    query = "SELECT * FROM sensor_readings ORDER BY timestamp DESC LIMIT 20"
+    query = "SELECT * FROM sensor_readings ORDER BY temp DESC LIMIT 20"
     df = pd.read_sql_query(query, conn)
     conn.close()
     return df
