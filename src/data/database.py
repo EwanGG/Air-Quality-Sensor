@@ -2,6 +2,7 @@ import sqlite3
 import time
 from datetime import datetime
 
+from src.sensors.BME688 import BME688Sensor
 
 # 1. Database Configuration
 DB_NAME = "air_quality.db"

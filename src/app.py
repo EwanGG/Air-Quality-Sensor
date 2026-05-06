@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 from GPS.gps_sensor import GPSSensor
 from GPS.save_data import log_data
-from sensors.BME688 import BME688Sensor
+from src.sensors.BME688 import BME688Sensor
 from data.database import insert_data
 
 # ----------Flask setup----------
@@ -52,7 +52,14 @@ def air_loop():
         log_data(combined)
 
         # Save to db
-        insert_data(combined)
+        insert_data(
+            combined.get("temperature"),
+            combined.get("humidity"),
+            combined.get("pressure"),
+            combined.get("gas"),
+            combined.get("latitude"),
+            combined.get("longitude")
+        )
 
         socketio.emit("air_data", combined)
 
