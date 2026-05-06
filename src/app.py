@@ -86,7 +86,7 @@ def airpurifier():
         return redirect("/")
     return render_template("airpurifier.html")
 
-@app.route('/background')
+@app.route('/background_info')
 def background():
     if not session.get("logged_in"):
         return redirect("/")
@@ -102,12 +102,17 @@ def history():
     conn = sqlite3.connect('./air_quality.db')
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM air_data ORDER BY timestamp DESC LIMIT 50")
+    cursor.execute("""
+                   SELECT * FROM air_data 
+                   ORDER BY timestamp DESC LIMIT 50""")
     rows = cursor.fetchall()
-
     conn.close()
 
     return jsonify(rows)
+
+@app.route('history_page')
+def history_page():
+    return render_template('history.html')
 
 # ----------Run app----------
 if __name__ == "__main__":

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sensor History</title>
+</head>
+
+<body>
+
+<h2>Last Readings</h2>
+
+<table border="1" id="dataTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Time</th>
+            <th>Temp</th>
+            <th>Humidity</th>
+            <th>Pressure</th>
+            <th>Gas</th>
+            <th>Lat</th>
+            <th>Lon</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+async function loadData() {
+    const res = await fetch("/history");
+    const data = await res.json();
+
+    const table = document.querySelector("#dataTable tbody");
+    table.innerHTML = "";
+
+    data.forEach(row => {
+        let tr = document.createElement("tr");
+
+        row.forEach(cell => {
+            let td = document.createElement("td");
+            td.innerText = cell ?? "N/A";
+            tr.appendChild(td);
+        });
+
+        table.appendChild(tr);
+    });
+}
+
+loadData();
+</script>
+
+</body>
+</html>
