@@ -14,11 +14,7 @@ def init_db():
     cursor.execute('''
                    CREATE TABLE IF NOT EXISTS environmental_readings
                    (
-                       id
-                       INTEGER
-                       PRIMARY
-                       KEY
-                       AUTOINCREMENT,
+                       id INTEGER PRIMARY KEY AUTOINCREMENT,
                        timestamp
                        DATETIME
                        DEFAULT
@@ -41,7 +37,7 @@ def init_db():
     conn.close()
 
 
-def log_data(temp, hum, gas, pre, lat, lon):
+def insert_data(temp, hum, gas, pre, lat, lon):
     """Inserts a single row of data into the database."""
     try:
         conn = sqlite3.connect(DB_NAME)
@@ -61,18 +57,22 @@ if __name__ == "__main__":
     init_db()
     print("Collector started. Press Ctrl+C to stop.")
 
+    sensor = BME688Sensor()
+
     while True:
-        # --- REPLACE THESE WITH YOUR ACTUAL SENSOR READS ---
-        # Example: temp = bme280.get_temperature()
-        temp = BME688Sensor.read_data()
-        hum = BME688Sensor.read_data()
-        gas = BME688Sensor.read_data()
-        pre = BME688Sensor.read_data()
-        lat = BME688Sensor.read_data()
-        lon = BME688Sensor.read_data()
+
+        data = sensor.read_data()
+
+        if data:
+            temp = data["temperature"]
+            hum = data["humidity"]
+            gas = data["gas"]
+            pre = data["pressure"]
+            lat = data["latitude"]
+            lon = data["longitude"]
         # --------------------------------------------------
 
-        log_data(temp, hum, gas, pre, lat, lon)
+        insert_data(temp, hum, gas, pre, lat, lon)
         print(f"[{datetime.now()}] Data logged successfully.")
 
         # Wait for 5 seconds before the next reading
