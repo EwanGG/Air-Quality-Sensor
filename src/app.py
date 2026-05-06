@@ -103,14 +103,14 @@ def history():
     cursor = conn.cursor()
 
     cursor.execute("""
-                   SELECT * FROM air_data 
+                   SELECT * FROM data_readings 
                    ORDER BY timestamp DESC LIMIT 50""")
     rows = cursor.fetchall()
     conn.close()
 
     return jsonify(rows)
 
-@app.route('history_page')
+@app.route('/history_page')
 def history_page():
     return render_template('history.html')
 

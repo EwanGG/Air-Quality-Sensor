@@ -1,10 +1,10 @@
 import sqlite3
 import time
 from datetime import datetime
-from src.sensors.BME688 import BME688Sensor
+
 
 # 1. Database Configuration
-DB_NAME = "sensor_data.db"
+DB_NAME = "air_quality.db"
 
 
 def init_db():
@@ -12,25 +12,16 @@ def init_db():
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
     cursor.execute('''
-                   CREATE TABLE IF NOT EXISTS environmental_readings
+                   CREATE TABLE IF NOT EXISTS sensor_readings
                    (
                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                       timestamp
-                       DATETIME
-                       DEFAULT
-                       CURRENT_TIMESTAMP,
-                       temperature
-                       REAL,
-                       humidity
-                       REAL,
-                       gas
-                       REAL,
-                       pressure 
-                       REAL,
-                       latitude
-                       REAL,
-                       longitude
-                       REAL
+                       timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                       temperature REAL,
+                       humidity REAL,
+                       gas REAL,
+                       pressure REAL,
+                       latitude REAL,
+                       longitude REAL
                    )
                    ''')
     conn.commit()
@@ -43,7 +34,7 @@ def insert_data(temp, hum, gas, pre, lat, lon):
         conn = sqlite3.connect(DB_NAME)
         cursor = conn.cursor()
         cursor.execute('''
-                       INSERT INTO environmental_readings (temperature, humidity, gas, pressure, latitude, longitude)
+                       INSERT INTO sensor_readings (temperature, humidity, gas, pressure, latitude, longitude)
                        VALUES (?, ?, ?, ?, ?, ?)
                        ''', (temp, hum, gas, pre, lat, lon))
         conn.commit()
